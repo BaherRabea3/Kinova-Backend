@@ -1,0 +1,74 @@
+﻿using Asp.Versioning;
+using Kinova.Domain.Common;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
+namespace Kinova.API.Controllers
+{
+    [ApiVersion(1.0)]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiController]
+    public abstract class APIController : ControllerBase
+    {
+        protected readonly IMediator _mediator;
+
+        protected APIController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+        protected int CustomerId =>
+           int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)
+               ?? throw new UnauthorizedAccessException("CustomerId claim missing from token."));
+        protected IActionResult HandleFailure(Result result) =>
+            result switch
+            {
+                { IsSuccess: true } => throw new InvalidOperationException(),
+                IValidationResult validationResult => BadRequest(
+                    CreateProblemDetails(
+                        title: "Validation Error",
+                        status: StatusCodes.Status400BadRequest,
+                        error: result.Error,
+                        errors: validationResult.Errors)),
+
+                { Error : { Type: ErrorType.NotFound } }  => NotFound(
+                    CreateProblemDetails(
+                        title: "Not Found Error",
+                        status: StatusCodes.Status404NotFound,
+                        error: result.Error)),
+
+                { Error : { Type: ErrorType.Conflict } } => Conflict(
+                    CreateProblemDetails(
+                        title: "Conflict Error",
+                        status: StatusCodes.Status409Conflict,
+                        error: result.Error)),
+
+                { Error : { Type: ErrorType.UnprocessableEntity} } => UnprocessableEntity(
+                    CreateProblemDetails(
+                        title: "Un processable Entity error",
+                        status: StatusCodes.Status422UnprocessableEntity,
+                        error: result.Error)),
+
+                _ => BadRequest(
+                    CreateProblemDetails(
+                        title: "Validation Error",
+                        status: StatusCodes.Status400BadRequest,
+                        error: result.Error))
+            };
+
+        
+        private static ProblemDetails CreateProblemDetails(
+            string title,
+            int status,
+            Error error,
+            Error[]? errors = null) =>
+            new()
+            {
+                Title = title,
+                Status = status,
+                Detail = error.Description,
+                Type = error.Code,
+                Extensions = { { nameof(errors), errors } }
+            };
+    }
+}

@@ -1,0 +1,6 @@
+@Kinova.API_HostAddress = http://localhost:5116
+
+GET {{Kinova.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

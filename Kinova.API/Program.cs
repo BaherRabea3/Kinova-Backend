@@ -23,6 +23,18 @@ namespace Kinova.API
             builder.Services.AddProblemDetails();
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+            // Cors Policy Configuration
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builderPolicy =>
+                {
+                    builderPolicy
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .WithMethods("GET", "POST", "PUT", "DELETE");
+                });
+            });
+
             builder.Services
                    .AddApiVersioning(options =>
                    {

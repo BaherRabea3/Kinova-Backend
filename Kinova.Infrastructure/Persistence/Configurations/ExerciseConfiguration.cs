@@ -21,6 +21,9 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .HasMaxLength(4000)
                 .IsRequired();
 
+            builder.HasData(DbSeeder.SeedExercises());
+
+
         }
     }
 }

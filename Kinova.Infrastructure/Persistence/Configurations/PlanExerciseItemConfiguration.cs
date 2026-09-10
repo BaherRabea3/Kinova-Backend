@@ -35,6 +35,9 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 x.ExerciseId
             })
             .IsUnique();
+
+            builder.HasData(DbSeeder.SeedPlanExerciseItems());
+
         }
     }
 }

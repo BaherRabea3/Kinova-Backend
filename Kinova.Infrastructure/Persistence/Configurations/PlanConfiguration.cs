@@ -41,6 +41,9 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .HasForeignKey(x => x.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasData(DbSeeder.SeedPlans());
+
+
         }
     }
 }

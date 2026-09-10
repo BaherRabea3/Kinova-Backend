@@ -7,7 +7,8 @@ namespace Kinova.Domain.Entities.Doctors
     public class Doctor
     {
         public Guid Id { get; set; }                    
-        public Guid UserId { get; set; }                
+        public Guid UserId { get; set; }
+        public string Name { get; set; }
         public string? LicenseNumber { get; set; }
         public string? Specialization { get; set; }
 

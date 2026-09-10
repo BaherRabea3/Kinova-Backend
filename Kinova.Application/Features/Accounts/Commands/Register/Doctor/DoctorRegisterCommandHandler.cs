@@ -34,6 +34,7 @@ namespace Kinova.Application.Features.Accounts.Commands.Register.Doctor
             Kinova.Domain.Entities.Doctors.Doctor doctor = new Kinova.Domain.Entities.Doctors.Doctor()
             {
                 UserId = response.UserId,
+                Name = request.FirstName + " " + request.LastName,
                 LicenseNumber = request.LicenseNumber ?? null,
                 Specialization = request.Specialization ?? null
             };

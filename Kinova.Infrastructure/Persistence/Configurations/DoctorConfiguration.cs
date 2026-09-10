@@ -28,15 +28,11 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .HasForeignKey<Doctor>(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(x => x.Patients)
-                .WithOne(x => x.Doctor)
-                .HasForeignKey(x => x.DoctorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasMany(x => x.Plans)
                 .WithOne(x => x.Doctor)
                 .HasForeignKey(x => x.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

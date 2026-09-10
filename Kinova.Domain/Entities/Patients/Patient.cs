@@ -8,12 +8,14 @@ namespace Kinova.Domain.Entities.Patients
     public class Patient
     {
         public Guid Id { get; set; }                    
-        public Guid UserId { get; set; }               
+        public Guid UserId { get; set; }
+        public string Name { get; set; }
+
         public Sex Gender { get; set; }
         public decimal Height { get; set; }
         public decimal Weight { get; set; }
         public string? CarePath { get; set; }
-        public Guid DoctorId { get; set; }             
+        public Guid? DoctorId { get; set; }             
 
         public Doctor? Doctor { get; set; }
         public ICollection<Plan> Plans { get; set; }  = new List<Plan>();

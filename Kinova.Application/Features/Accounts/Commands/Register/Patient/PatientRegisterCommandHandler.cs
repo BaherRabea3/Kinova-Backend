@@ -34,6 +34,7 @@ namespace Kinova.Application.Features.Accounts.Commands.Register.Patient
             var patient = new Kinova.Domain.Entities.Patients.Patient
             {
                 UserId = response.UserId,
+                Name = request.FirstName + " " + request.LastName,
                 Height = request.Height ?? 0,
                 Weight = request.Weight ?? 0,
                 Gender = request.Gender ?? Sex.Undefined

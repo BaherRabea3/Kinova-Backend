@@ -4,6 +4,7 @@ using Kinova.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kinova.Infrastructure.Migrations
 {
     [DbContext(typeof(KinovaDbContext))]
-    partial class KinovaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260909225909_addColumnNameToDoctorAndPatient")]
+    partial class addColumnNameToDoctorAndPatient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,44 +92,6 @@ namespace Kinova.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Exercises", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("33333333-0000-0000-0000-000000000001"),
-                            BodyPart = "Shoulder",
-                            Category = "Range of Motion",
-                            Defaults = "{\"sets\":3,\"reps\":10,\"holdSeconds\":2}",
-                            DifficultyLevel = "Beginner",
-                            Instructions = "Raise the arm forward and upward to shoulder height, then slowly lower it back down.",
-                            Name = "Shoulder Flexion",
-                            TargetJoints = "Glenohumeral Joint",
-                            VideoUrl = "https://videos.kinova-health.com/exercises/shoulder-flexion.mp4"
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-0000-0000-0000-000000000002"),
-                            BodyPart = "Knee",
-                            Category = "Strength",
-                            Defaults = "{\"sets\":3,\"reps\":12,\"holdSeconds\":3}",
-                            DifficultyLevel = "Beginner",
-                            Instructions = "While seated, extend the knee until the leg is straight, then slowly return to the starting position.",
-                            Name = "Seated Knee Extension",
-                            TargetJoints = "Knee Joint",
-                            VideoUrl = "https://videos.kinova-health.com/exercises/knee-extension.mp4"
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-0000-0000-0000-000000000003"),
-                            BodyPart = "Lower Body",
-                            Category = "Functional Strength",
-                            Defaults = "{\"sets\":3,\"reps\":15,\"holdSeconds\":0}",
-                            DifficultyLevel = "Intermediate",
-                            Instructions = "Stand with feet shoulder-width apart, lower the hips back and down, then return to standing.",
-                            Name = "Bodyweight Squat",
-                            TargetJoints = "Hip, Knee, Ankle",
-                            VideoUrl = "https://videos.kinova-health.com/exercises/bodyweight-squat.mp4"
-                        });
                 });
 
             modelBuilder.Entity("Kinova.Domain.Entities.JointAngles.JointAngleReading", b =>
@@ -205,7 +170,7 @@ namespace Kinova.Infrastructure.Migrations
                     b.Property<string>("CarePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("DoctorId")
+                    b.Property<Guid>("DoctorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Gender")
@@ -263,53 +228,6 @@ namespace Kinova.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("PlanExercises", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("55555555-0000-0000-0000-000000000001"),
-                            ExerciseId = new Guid("33333333-0000-0000-0000-000000000003"),
-                            FrequencyPerWeek = 5,
-                            PlanId = new Guid("44444444-0000-0000-0000-000000000001"),
-                            Repetitions = 15,
-                            Sets = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-0000-0000-0000-000000000002"),
-                            ExerciseId = new Guid("33333333-0000-0000-0000-000000000002"),
-                            FrequencyPerWeek = 4,
-                            PlanId = new Guid("44444444-0000-0000-0000-000000000001"),
-                            Repetitions = 12,
-                            Sets = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-0000-0000-0000-000000000003"),
-                            ExerciseId = new Guid("33333333-0000-0000-0000-000000000002"),
-                            FrequencyPerWeek = 3,
-                            PlanId = new Guid("44444444-0000-0000-0000-000000000002"),
-                            Repetitions = 10,
-                            Sets = 2
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-0000-0000-0000-000000000004"),
-                            ExerciseId = new Guid("33333333-0000-0000-0000-000000000001"),
-                            FrequencyPerWeek = 6,
-                            PlanId = new Guid("44444444-0000-0000-0000-000000000003"),
-                            Repetitions = 10,
-                            Sets = 3
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-0000-0000-0000-000000000005"),
-                            ExerciseId = new Guid("33333333-0000-0000-0000-000000000001"),
-                            FrequencyPerWeek = 4,
-                            PlanId = new Guid("44444444-0000-0000-0000-000000000004"),
-                            Repetitions = 8,
-                            Sets = 2
-                        });
                 });
 
             modelBuilder.Entity("Kinova.Domain.Entities.Plans.Plan", b =>
@@ -354,56 +272,6 @@ namespace Kinova.Infrastructure.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Plans", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("44444444-0000-0000-0000-000000000001"),
-                            Description = "Progressive strengthening plan following ACL reconstruction, weeks 6-12.",
-                            DoctorId = new Guid("e5a685a3-a6ac-f111-a08c-a44cc84061dc"),
-                            EndDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = true,
-                            Name = "ACL Recovery - Phase 2",
-                            PatientId = new Guid("6b935f96-a4ac-f111-a08c-a44cc84061dc"),
-                            Source = "Doctor",
-                            StartDate = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-0000-0000-0000-000000000002"),
-                            Description = "Initial post-op mobility plan, weeks 0-6.",
-                            DoctorId = new Guid("e5a685a3-a6ac-f111-a08c-a44cc84061dc"),
-                            EndDate = new DateTime(2026, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = false,
-                            Name = "ACL Recovery - Phase 1",
-                            PatientId = new Guid("6b935f96-a4ac-f111-a08c-a44cc84061dc"),
-                            Source = "Doctor",
-                            StartDate = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-0000-0000-0000-000000000003"),
-                            Description = "Range-of-motion focused plan for rotator cuff recovery.",
-                            DoctorId = new Guid("de7dece8-a6ac-f111-a08c-a44cc84061dc"),
-                            EndDate = new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = true,
-                            Name = "Shoulder Mobility Restoration",
-                            PatientId = new Guid("5041b5af-a4ac-f111-a08c-a44cc84061dc"),
-                            Source = "Doctor",
-                            StartDate = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-0000-0000-0000-000000000004"),
-                            Description = "AI-recommended supplementary plan to accelerate shoulder ROM gains.",
-                            DoctorId = new Guid("de7dece8-a6ac-f111-a08c-a44cc84061dc"),
-                            EndDate = new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = true,
-                            Name = "Adjunct Mobility Boost",
-                            PatientId = new Guid("5041b5af-a4ac-f111-a08c-a44cc84061dc"),
-                            Source = "AIRecommendation",
-                            StartDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Kinova.Domain.Entities.Reports.Report", b =>
@@ -607,13 +475,13 @@ namespace Kinova.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("53e76e8d-f30b-4366-9621-0f5e7174affb"),
+                            Id = new Guid("02da218f-ed8f-4eee-8807-e5ffc25624a0"),
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = new Guid("8cb15d34-82f5-4e95-bfb9-e474a5934c4c"),
+                            Id = new Guid("fe6e76a3-ccd1-4b82-9811-b2a33b52b204"),
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         });
@@ -850,7 +718,8 @@ namespace Kinova.Infrastructure.Migrations
                     b.HasOne("Kinova.Domain.Entities.Doctors.Doctor", "Doctor")
                         .WithMany("Patients")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Kinova.Infrastructure.Identity.ApplicationUser", null)
                         .WithOne()

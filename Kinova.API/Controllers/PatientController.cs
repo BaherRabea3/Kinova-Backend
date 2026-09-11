@@ -14,7 +14,6 @@ namespace Kinova.API.Controllers
         }
 
         [HttpGet("me/plans/active")]
-        [Authorize]
         public async Task<IActionResult> GetActivePlans()
         {
             var response = await _mediator.Send(new GetActivePlansQuery(UserId));

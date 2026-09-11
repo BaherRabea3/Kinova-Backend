@@ -38,6 +38,8 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .HasForeignKey<Score>(x => x.SessionId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired(true);
+
+            builder.HasIndex(s => s.SessionId).IsUnique();   // enforces 1:1, backs the idempotent-retry lookup
         }
     }
 }

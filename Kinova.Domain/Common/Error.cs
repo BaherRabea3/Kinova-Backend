@@ -26,6 +26,8 @@
             => new(code, description, ErrorType.Validation);
         public static Error Conflict(string code, string description)
             => new(code, description, ErrorType.Conflict);
+        public static Error Forbidden(string code, string description)
+            => new(code, description, ErrorType.Forbidden);
         public static Error Failure(string code, string description)
             => new(code, description, ErrorType.Failure);
         public static Error UnprocessableEntity(string code, string description)
@@ -41,7 +43,8 @@
         NotFound = 2,
         Conflict = 3,
         UnprocessableEntity = 4,
-        BadGateway = 5
+        BadGateway = 5,
+        Forbidden = 6
     }
 
 }

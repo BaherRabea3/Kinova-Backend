@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using Kinova.Application;
 using Kinova.Application.Behaviours;
+using Kinova.Application.Common.Helpers;
+using Kinova.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +22,9 @@ namespace Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+
+            services.AddScoped<IScoreCalculator, ScoreCalculator>();
+            services.AddScoped<IReportContentBuilder, ReportContentBuilder>();
 
             return services;
         }

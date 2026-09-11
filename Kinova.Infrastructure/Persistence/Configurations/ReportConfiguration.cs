@@ -16,22 +16,8 @@ namespace Kinova.Infrastructure.Persistence.Configurations
             builder.Property(s => s.Id)
                 .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-            builder.Property(x => x.OverallScore)
-                .HasPrecision(5, 2)
-                .IsRequired();
-
-            builder.Property(x => x.AverageRangeOfMotion)
-                .HasPrecision(10, 3)
-                .IsRequired();
-
             builder.Property(x => x.SummaryText)
                 .HasMaxLength(5000)
-                .IsRequired();
-
-            builder.Property(x => x.TotalRepetitions)
-                .IsRequired();
-
-            builder.Property(x => x.CorrectRepetitions)
                 .IsRequired();
 
             builder.HasOne(x => x.Session)
@@ -48,6 +34,11 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .WithMany(x => x.Reports)
                 .HasForeignKey(x => x.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(r => r.Score)
+            .WithOne()                             
+            .HasForeignKey<Report>(r => r.ScoreId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(x => x.SessionId)
                 .IsUnique();

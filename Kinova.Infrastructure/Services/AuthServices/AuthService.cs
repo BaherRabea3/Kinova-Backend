@@ -124,6 +124,8 @@ namespace Kinova.Infrastructure.Services.AuthServices
 
                 await _userManager.UpdateAsync(appUser);
 
+                await transaction.CommitAsync();
+
                 return authResponse;
             }
             catch

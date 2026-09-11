@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Kinova.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedPlanQueryData : Migration
+    public partial class SeedPlanQueryWithData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,8 +28,8 @@ namespace Kinova.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("53e76e8d-f30b-4366-9621-0f5e7174affb"), null, "Patient", "PATIENT" },
-                    { new Guid("8cb15d34-82f5-4e95-bfb9-e474a5934c4c"), null, "Doctor", "DOCTOR" }
+                    { new Guid("a6059e3e-feb1-4432-a2d5-99a50cf2168e"), null, "Doctor", "DOCTOR" },
+                    { new Guid("d1102f02-ae85-4420-8858-b0a548a48bc1"), null, "Patient", "PATIENT" }
                 });
 
             migrationBuilder.InsertData(
@@ -47,10 +47,10 @@ namespace Kinova.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "DoctorId", "EndDate", "IsActive", "Name", "PatientId", "Source", "StartDate" },
                 values: new object[,]
                 {
-                    { new Guid("44444444-0000-0000-0000-000000000001"), "Progressive strengthening plan following ACL reconstruction, weeks 6-12.", new Guid("e5a685a3-a6ac-f111-a08c-a44cc84061dc"), new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "ACL Recovery - Phase 2", new Guid("6b935f96-a4ac-f111-a08c-a44cc84061dc"), "Doctor", new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("44444444-0000-0000-0000-000000000002"), "Initial post-op mobility plan, weeks 0-6.", new Guid("e5a685a3-a6ac-f111-a08c-a44cc84061dc"), new DateTime(2026, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "ACL Recovery - Phase 1", new Guid("6b935f96-a4ac-f111-a08c-a44cc84061dc"), "Doctor", new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("44444444-0000-0000-0000-000000000003"), "Range-of-motion focused plan for rotator cuff recovery.", new Guid("de7dece8-a6ac-f111-a08c-a44cc84061dc"), new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Shoulder Mobility Restoration", new Guid("5041b5af-a4ac-f111-a08c-a44cc84061dc"), "Doctor", new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("44444444-0000-0000-0000-000000000004"), "AI-recommended supplementary plan to accelerate shoulder ROM gains.", new Guid("de7dece8-a6ac-f111-a08c-a44cc84061dc"), new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Adjunct Mobility Boost", new Guid("5041b5af-a4ac-f111-a08c-a44cc84061dc"), "AIRecommendation", new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { new Guid("44444444-0000-0000-0000-000000000001"), "Progressive strengthening plan following ACL reconstruction, weeks 6-12.", new Guid("fe0691d2-30ad-f111-8f74-00155df0670e"), new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "ACL Recovery - Phase 2", new Guid("643fbb85-2fad-f111-8f74-00155df0670e"), "Doctor", new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("44444444-0000-0000-0000-000000000002"), "Initial post-op mobility plan, weeks 0-6.", new Guid("fe0691d2-30ad-f111-8f74-00155df0670e"), new DateTime(2026, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "ACL Recovery - Phase 1", new Guid("643fbb85-2fad-f111-8f74-00155df0670e"), "Doctor", new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("44444444-0000-0000-0000-000000000003"), "Range-of-motion focused plan for rotator cuff recovery.", new Guid("eb420afe-30ad-f111-8f74-00155df0670e"), new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Shoulder Mobility Restoration", new Guid("d1fcede8-2fad-f111-8f74-00155df0670e"), "Doctor", new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("44444444-0000-0000-0000-000000000004"), "AI-recommended supplementary plan to accelerate shoulder ROM gains.", new Guid("eb420afe-30ad-f111-8f74-00155df0670e"), new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Adjunct Mobility Boost", new Guid("d1fcede8-2fad-f111-8f74-00155df0670e"), "AIRecommendation", new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -72,12 +72,12 @@ namespace Kinova.Infrastructure.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: new Guid("53e76e8d-f30b-4366-9621-0f5e7174affb"));
+                keyValue: new Guid("a6059e3e-feb1-4432-a2d5-99a50cf2168e"));
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: new Guid("8cb15d34-82f5-4e95-bfb9-e474a5934c4c"));
+                keyValue: new Guid("d1102f02-ae85-4420-8858-b0a548a48bc1"));
 
             migrationBuilder.DeleteData(
                 table: "PlanExercises",

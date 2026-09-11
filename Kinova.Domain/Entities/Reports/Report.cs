@@ -1,5 +1,6 @@
 ﻿using Kinova.Domain.Entities.Doctors;
 using Kinova.Domain.Entities.Patients;
+using Kinova.Domain.Entities.Scores;
 using Kinova.Domain.Entities.Sessions;
 
 namespace Kinova.Domain.Entities.Reports
@@ -10,15 +11,14 @@ namespace Kinova.Domain.Entities.Reports
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string SummaryText { get; set; } = null!;
-        public decimal OverallScore { get; set; }
-        public int TotalRepetitions { get; set; }
-        public int CorrectRepetitions { get; set; }
-        public double AverageRangeOfMotion { get; set; }
+        public string ErrorsJson { get; set; } = "[]";
 
+        public Guid ScoreId { get; set; }
         public Guid SessionId { get; set; }
         public Guid PatientId { get; set; }             
         public Guid DoctorId { get; set; }              
 
+        public Score? Score { get; set; }
         public Patient? Patient { get; set; }
         public Doctor? Doctor { get; set; }
         public Session? Session { get; set; }

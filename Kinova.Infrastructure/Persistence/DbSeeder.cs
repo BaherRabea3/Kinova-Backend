@@ -32,16 +32,16 @@ namespace Kinova.Infrastructure.Persistence
     public static class DbSeeder
     {
         // ---- Doctors ----
-        private static readonly Guid Doctor1Id = Guid.Parse("e5a685a3-a6ac-f111-a08c-a44cc84061dc");
-        private static readonly Guid Doctor1UserId = Guid.Parse("27ccac6e-8092-4952-858f-08df0ec876dc");
-        private static readonly Guid Doctor2Id = Guid.Parse("de7dece8-a6ac-f111-a08c-a44cc84061dc");
-        private static readonly Guid Doctor2UserId = Guid.Parse("791d83b4-7bde-407a-8590-08df0ec876dc");
+        private static readonly Guid Doctor1Id = Guid.Parse("fe0691d2-30ad-f111-8f74-00155df0670e");
+        private static readonly Guid Doctor1UserId = Guid.Parse("932fdec4-ba8a-4f81-78a8-08df0f536c78");
+        private static readonly Guid Doctor2Id = Guid.Parse("eb420afe-30ad-f111-8f74-00155df0670e");
+        private static readonly Guid Doctor2UserId = Guid.Parse("cb85c401-fa7b-4119-78a9-08df0f536c78");
 
         // ---- Patients ----
-        private static readonly Guid Patient1Id = Guid.Parse("6b935f96-a4ac-f111-a08c-a44cc84061dc");
-        private static readonly Guid Patient1UserId = Guid.Parse("19b65aaa-e61b-42e0-858d-08df0ec876dc");
-        private static readonly Guid Patient2Id = Guid.Parse("5041b5af-a4ac-f111-a08c-a44cc84061dc");
-        private static readonly Guid Patient2UserId = Guid.Parse("6b9a9b9a-eca5-4d2b-858e-08df0ec876dc");
+        private static readonly Guid Patient1Id = Guid.Parse("643fbb85-2fad-f111-8f74-00155df0670e");
+        private static readonly Guid Patient1UserId = Guid.Parse("9bbeb156-c98a-4fce-78a6-08df0f536c78");
+        private static readonly Guid Patient2Id = Guid.Parse("d1fcede8-2fad-f111-8f74-00155df0670e");
+        private static readonly Guid Patient2UserId = Guid.Parse("9557f4e2-0d2e-4ed6-78a7-08df0f536c78");
 
         // ---- Exercises ----
         private static readonly Guid ExShoulderFlexionId = Guid.Parse("33333333-0000-0000-0000-000000000001");

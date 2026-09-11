@@ -4,6 +4,7 @@ using Kinova.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kinova.Infrastructure.Migrations
 {
     [DbContext(typeof(KinovaDbContext))]
-    partial class KinovaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260910160945_SeedPlanQueryWithData")]
+    partial class SeedPlanQueryWithData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -413,20 +416,24 @@ namespace Kinova.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
 
+                    b.Property<double>("AverageRangeOfMotion")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("float(10)");
+
+                    b.Property<int>("CorrectRepetitions")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ErrorsJson")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("OverallScore")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<Guid>("PatientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ScoreId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SessionId")
@@ -440,14 +447,14 @@ namespace Kinova.Infrastructure.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TotalRepetitions")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
-
-                    b.HasIndex("ScoreId")
-                        .IsUnique();
 
                     b.HasIndex("SessionId")
                         .IsUnique();
@@ -603,13 +610,13 @@ namespace Kinova.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1a95e1a8-9032-4a9f-b8fb-0191988f1746"),
+                            Id = new Guid("d1102f02-ae85-4420-8858-b0a548a48bc1"),
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = new Guid("76f67d8a-3b6f-4ae1-b7cf-29789776548b"),
+                            Id = new Guid("a6059e3e-feb1-4432-a2d5-99a50cf2168e"),
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         });
@@ -909,12 +916,6 @@ namespace Kinova.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Kinova.Domain.Entities.Scores.Score", "Score")
-                        .WithOne()
-                        .HasForeignKey("Kinova.Domain.Entities.Reports.Report", "ScoreId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Kinova.Domain.Entities.Sessions.Session", "Session")
                         .WithOne("Report")
                         .HasForeignKey("Kinova.Domain.Entities.Reports.Report", "SessionId")
@@ -924,8 +925,6 @@ namespace Kinova.Infrastructure.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
-
-                    b.Navigation("Score");
 
                     b.Navigation("Session");
                 });

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kinova.Infrastructure.Migrations
 {
     [DbContext(typeof(KinovaDbContext))]
-    [Migration("20260909234111_SeedPlanQueryData")]
-    partial class SeedPlanQueryData
+    [Migration("20260911041213_updateReportAndScoreTables")]
+    partial class updateReportAndScoreTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -363,11 +363,11 @@ namespace Kinova.Infrastructure.Migrations
                         {
                             Id = new Guid("44444444-0000-0000-0000-000000000001"),
                             Description = "Progressive strengthening plan following ACL reconstruction, weeks 6-12.",
-                            DoctorId = new Guid("e5a685a3-a6ac-f111-a08c-a44cc84061dc"),
+                            DoctorId = new Guid("fe0691d2-30ad-f111-8f74-00155df0670e"),
                             EndDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             Name = "ACL Recovery - Phase 2",
-                            PatientId = new Guid("6b935f96-a4ac-f111-a08c-a44cc84061dc"),
+                            PatientId = new Guid("643fbb85-2fad-f111-8f74-00155df0670e"),
                             Source = "Doctor",
                             StartDate = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -375,11 +375,11 @@ namespace Kinova.Infrastructure.Migrations
                         {
                             Id = new Guid("44444444-0000-0000-0000-000000000002"),
                             Description = "Initial post-op mobility plan, weeks 0-6.",
-                            DoctorId = new Guid("e5a685a3-a6ac-f111-a08c-a44cc84061dc"),
+                            DoctorId = new Guid("fe0691d2-30ad-f111-8f74-00155df0670e"),
                             EndDate = new DateTime(2026, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = false,
                             Name = "ACL Recovery - Phase 1",
-                            PatientId = new Guid("6b935f96-a4ac-f111-a08c-a44cc84061dc"),
+                            PatientId = new Guid("643fbb85-2fad-f111-8f74-00155df0670e"),
                             Source = "Doctor",
                             StartDate = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -387,11 +387,11 @@ namespace Kinova.Infrastructure.Migrations
                         {
                             Id = new Guid("44444444-0000-0000-0000-000000000003"),
                             Description = "Range-of-motion focused plan for rotator cuff recovery.",
-                            DoctorId = new Guid("de7dece8-a6ac-f111-a08c-a44cc84061dc"),
+                            DoctorId = new Guid("eb420afe-30ad-f111-8f74-00155df0670e"),
                             EndDate = new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             Name = "Shoulder Mobility Restoration",
-                            PatientId = new Guid("5041b5af-a4ac-f111-a08c-a44cc84061dc"),
+                            PatientId = new Guid("d1fcede8-2fad-f111-8f74-00155df0670e"),
                             Source = "Doctor",
                             StartDate = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -399,11 +399,11 @@ namespace Kinova.Infrastructure.Migrations
                         {
                             Id = new Guid("44444444-0000-0000-0000-000000000004"),
                             Description = "AI-recommended supplementary plan to accelerate shoulder ROM gains.",
-                            DoctorId = new Guid("de7dece8-a6ac-f111-a08c-a44cc84061dc"),
+                            DoctorId = new Guid("eb420afe-30ad-f111-8f74-00155df0670e"),
                             EndDate = new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             Name = "Adjunct Mobility Boost",
-                            PatientId = new Guid("5041b5af-a4ac-f111-a08c-a44cc84061dc"),
+                            PatientId = new Guid("d1fcede8-2fad-f111-8f74-00155df0670e"),
                             Source = "AIRecommendation",
                             StartDate = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -416,24 +416,20 @@ namespace Kinova.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    b.Property<double>("AverageRangeOfMotion")
-                        .HasPrecision(10, 3)
-                        .HasColumnType("float(10)");
-
-                    b.Property<int>("CorrectRepetitions")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("OverallScore")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
+                    b.Property<string>("ErrorsJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ScoreId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SessionId")
@@ -447,14 +443,14 @@ namespace Kinova.Infrastructure.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalRepetitions")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
+
+                    b.HasIndex("ScoreId")
+                        .IsUnique();
 
                     b.HasIndex("SessionId")
                         .IsUnique();
@@ -610,13 +606,13 @@ namespace Kinova.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("53e76e8d-f30b-4366-9621-0f5e7174affb"),
+                            Id = new Guid("1a95e1a8-9032-4a9f-b8fb-0191988f1746"),
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = new Guid("8cb15d34-82f5-4e95-bfb9-e474a5934c4c"),
+                            Id = new Guid("76f67d8a-3b6f-4ae1-b7cf-29789776548b"),
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         });
@@ -916,6 +912,12 @@ namespace Kinova.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Kinova.Domain.Entities.Scores.Score", "Score")
+                        .WithOne()
+                        .HasForeignKey("Kinova.Domain.Entities.Reports.Report", "ScoreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Kinova.Domain.Entities.Sessions.Session", "Session")
                         .WithOne("Report")
                         .HasForeignKey("Kinova.Domain.Entities.Reports.Report", "SessionId")
@@ -925,6 +927,8 @@ namespace Kinova.Infrastructure.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+
+                    b.Navigation("Score");
 
                     b.Navigation("Session");
                 });

@@ -43,6 +43,12 @@ namespace Kinova.API.Controllers
                         status: StatusCodes.Status409Conflict,
                         error: result.Error)),
 
+                { Error: { Type: ErrorType.Forbidden } } => Conflict(
+                    CreateProblemDetails(
+                        title: "Forbidden Error",
+                        status: StatusCodes.Status403Forbidden,
+                        error: result.Error)),
+
                 { Error : { Type: ErrorType.UnprocessableEntity} } => UnprocessableEntity(
                     CreateProblemDetails(
                         title: "Un processable Entity error",

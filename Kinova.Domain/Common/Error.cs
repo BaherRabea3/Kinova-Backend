@@ -28,6 +28,8 @@
             => new(code, description, ErrorType.Conflict);
         public static Error Forbidden(string code, string description)
             => new(code, description, ErrorType.Forbidden);
+        public static Error UnAuthorized(string code, string description)
+            => new(code, description, ErrorType.Unauthorized);
         public static Error Failure(string code, string description)
             => new(code, description, ErrorType.Failure);
         public static Error UnprocessableEntity(string code, string description)
@@ -44,7 +46,8 @@
         Conflict = 3,
         UnprocessableEntity = 4,
         BadGateway = 5,
-        Forbidden = 6
+        Forbidden = 6,
+        Unauthorized = 7
     }
 
 }

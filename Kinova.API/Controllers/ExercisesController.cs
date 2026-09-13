@@ -15,9 +15,13 @@ namespace Kinova.API.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetExercises()
+        public async Task<IActionResult> GetExercises(
+            [FromQuery] string? search = null,
+            [FromQuery] string? category = null,
+            [FromQuery] string? bodyPart = null,
+            [FromQuery] string? difficultyLevel = null)
         {
-            var response = await _mediator.Send(new GetExerciseQeury());
+            var response = await _mediator.Send(new GetExerciseQeury(search, category, bodyPart, difficultyLevel));
 
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }

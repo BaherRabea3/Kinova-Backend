@@ -1,4 +1,4 @@
-﻿
+
 using FluentValidation;
 using Kinova.Application.Features.Accounts.Commands.GenerateJwtToken;
 

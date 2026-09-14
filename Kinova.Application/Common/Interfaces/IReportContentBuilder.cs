@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.DTOs.RepDTOs;
+using Kinova.Application.Common.DTOs.RepDTOs;
 using Kinova.Domain.Entities.Sessions;
 
 namespace Kinova.Application.Common.Interfaces

@@ -1,4 +1,4 @@
-﻿using Kinova.Domain.Entities.Reps;
+using Kinova.Domain.Entities.Reps;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,7 +14,6 @@ namespace Kinova.Infrastructure.Persistence.Configurations
             builder.HasKey(s => s.Id);
             builder.Property(s => s.Id)
                 .HasDefaultValueSql("NEWSEQUENTIALID()");
-
 
             builder.Property(x => x.IsCorrect)
                 .IsRequired();

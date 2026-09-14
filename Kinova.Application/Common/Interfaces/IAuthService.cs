@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.DTOs.AccountDTOs;
+using Kinova.Application.Common.DTOs.AccountDTOs;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kinova.Application.Common.Interfaces

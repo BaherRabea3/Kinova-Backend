@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.DTOs.DoctorDTOs;
+using Kinova.Application.Common.DTOs.DoctorDTOs;
 using Kinova.Domain.Common;
 using MediatR;
 

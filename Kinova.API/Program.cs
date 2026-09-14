@@ -14,7 +14,6 @@ namespace Kinova.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
             builder.Services.AddControllers()
@@ -29,7 +28,6 @@ namespace Kinova.API
             builder.Services.AddProblemDetails();
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-            // Cors Policy Configuration
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builderPolicy =>
@@ -54,24 +52,18 @@ namespace Kinova.API
                        options.SubstituteApiVersionInUrl = true;
                    });
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment())
-            //{
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            //}
 
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 

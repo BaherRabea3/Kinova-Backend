@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.DTOs.MovementErrorDTOs;
+using Kinova.Application.Common.DTOs.MovementErrorDTOs;
 using Kinova.Application.Common.DTOs.RepDTOs;
 using Kinova.Application.Common.Interfaces;
 using Kinova.Domain.Entities.Sessions;

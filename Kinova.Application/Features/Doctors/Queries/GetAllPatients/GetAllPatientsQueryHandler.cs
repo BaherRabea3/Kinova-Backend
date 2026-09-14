@@ -2,38 +2,28 @@ using Kinova.Application.Common.DTOs.CommonDTOs;
 using Kinova.Application.Common.DTOs.DoctorDTOs;
 using Kinova.Application.Common.Interfaces;
 using Kinova.Domain.Common;
-using Kinova.Domain.Entities.Doctors;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Kinova.Application.Features.Doctors.Queries.GetPatients
+namespace Kinova.Application.Features.Doctors.Queries.GetAllPatients
 {
-    public sealed class GetPatientsQueryHandler : IRequestHandler<GetPatientsQuery, Result<PagedResult<DoctorPatientListItemDto>>>
+    public sealed class GetAllPatientsQueryHandler : IRequestHandler<GetAllPatientsQuery, Result<PagedResult<AllPatientsListItemDto>>>
     {
         private const int MaxPageSize = 50;
 
         private readonly IKinovaDbContext _context;
 
-        public GetPatientsQueryHandler(IKinovaDbContext context)
+        public GetAllPatientsQueryHandler(IKinovaDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Result<PagedResult<DoctorPatientListItemDto>>> Handle(GetPatientsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PagedResult<AllPatientsListItemDto>>> Handle(GetAllPatientsQuery request, CancellationToken cancellationToken)
         {
-            var doctor = await _context.Doctors
-                .AsNoTracking()
-                .FirstOrDefaultAsync(d => d.UserId == request.DoctorUserId, cancellationToken);
-
-            if (doctor is null)
-                return Result.Failure<PagedResult<DoctorPatientListItemDto>>(DoctorErrors.UnAuthorized());
-
             var page = request.Page < 1 ? 1 : request.Page;
             var pageSize = request.PageSize < 1 ? 10 : Math.Min(request.PageSize, MaxPageSize);
 
-            var query = _context.Patients
-                .AsNoTracking()
-                .Where(p => p.DoctorId == doctor.Id);
+            var query = _context.Patients.AsNoTracking();
 
             if (!string.IsNullOrWhiteSpace(request.Search))
             {
@@ -53,7 +43,7 @@ namespace Kinova.Application.Features.Doctors.Queries.GetPatients
                 .OrderBy(p => p.Name)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .Select(p => new DoctorPatientListItemDto
+                .Select(p => new AllPatientsListItemDto
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -62,10 +52,8 @@ namespace Kinova.Application.Features.Doctors.Queries.GetPatients
                     Weight = p.Weight,
                     CarePath = p.CarePath,
                     Status = p.Plans.Any(pl => pl.IsActive) ? "Active" : "Inactive",
-                    ActivePlanName = p.Plans.Where(pl => pl.IsActive)
-                                             .OrderByDescending(pl => pl.StartDate)
-                                             .Select(pl => pl.Name)
-                                             .FirstOrDefault(),
+                    DoctorId = p.DoctorId,
+                    DoctorName = p.Doctor != null ? p.Doctor.Name : null,
                     TotalSessions = p.Sessions.Count,
                     LastSessionDate = p.Sessions.OrderByDescending(s => s.SessionDate)
                                                  .Select(s => (DateOnly?)s.SessionDate)
@@ -73,7 +61,7 @@ namespace Kinova.Application.Features.Doctors.Queries.GetPatients
                 })
                 .ToListAsync(cancellationToken);
 
-            return Result.Success(new PagedResult<DoctorPatientListItemDto>
+            return Result.Success(new PagedResult<AllPatientsListItemDto>
             {
                 Items = items,
                 Page = page,

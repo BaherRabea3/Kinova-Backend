@@ -1,4 +1,4 @@
-﻿using Kinova.Domain.Entities.Exercises;
+using Kinova.Domain.Entities.Exercises;
 using Kinova.Domain.Entities.Patients;
 using Kinova.Domain.Entities.PlanExerciseItems;
 using Kinova.Domain.Entities.Reports;
@@ -20,7 +20,7 @@ namespace Kinova.Domain.Entities.Sessions
 
         public Guid PatientId { get; set; }
         public Guid ExerciseId { get; set; }
-        public Guid? ItemId { get; set; }             
+        public Guid? ItemId { get; set; }
 
         public Patient Patient { get; set; } = null!;
         public Exercise Exercise { get; set; } = null!;

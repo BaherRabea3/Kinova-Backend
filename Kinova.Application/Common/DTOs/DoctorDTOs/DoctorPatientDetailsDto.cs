@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.DTOs.PlanDTos;
+using Kinova.Application.Common.DTOs.PlanDTos;
 using Kinova.Domain.Entities.Patients;
 
 namespace Kinova.Application.Common.DTOs.DoctorDTOs
@@ -13,7 +13,6 @@ namespace Kinova.Application.Common.DTOs.DoctorDTOs
         public string? CarePath { get; set; }
         public string Status { get; set; } = string.Empty;
 
-      
         public List<PlanResponseDto> Plans { get; set; } = new();
         public List<PatientSessionHistoryDto> RecentSessions { get; set; } = new();
     }

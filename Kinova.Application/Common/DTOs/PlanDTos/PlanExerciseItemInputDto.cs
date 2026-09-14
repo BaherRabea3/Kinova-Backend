@@ -1,4 +1,4 @@
-﻿namespace Kinova.Application.Common.DTOs.PlanDTos
+namespace Kinova.Application.Common.DTOs.PlanDTos
 {
     public class PlanExerciseItemInputDto
     {

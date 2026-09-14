@@ -1,4 +1,4 @@
-﻿
+
 using FluentValidation;
 using Kinova.Application.Common.DTOs.SessionDTOs;
 

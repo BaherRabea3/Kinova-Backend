@@ -1,4 +1,4 @@
-﻿namespace Kinova.Domain.Entities.Patients
+namespace Kinova.Domain.Entities.Patients
 {
     public enum Sex
     {

@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.DTOs.ReportDTOs;
+using Kinova.Application.Common.DTOs.ReportDTOs;
 using Kinova.Application.Common.DTOs.ScoreDTOs;
 using Kinova.Application.Common.Interfaces;
 using Kinova.Domain.Common;
@@ -33,15 +33,12 @@ namespace Kinova.Application.Features.Sessions.Commands.CompleteSession
                 .Include(s => s.Patient)
                 .FirstOrDefaultAsync(s => s.Id == request.SessionId, ct);
 
-
             if (session is null)
                 return Result.Failure<ScoreDto>(SessionErrors.NotFound());
 
             if (session.Patient.UserId != request.UserId)
                 return Result.Failure<ScoreDto>(PatientErrors.NotYourSession());
 
-
-            // Idempotent retry
             if (session.Status == SessionStatus.Completed)
             {
                 var existing = await _context.Scores
@@ -110,7 +107,7 @@ namespace Kinova.Application.Features.Sessions.Commands.CompleteSession
                 };
                 _context.Reports.Add(report);
             }
-            
+
             session.EndTime = DateTime.UtcNow;
             session.Status = SessionStatus.Completed;
 

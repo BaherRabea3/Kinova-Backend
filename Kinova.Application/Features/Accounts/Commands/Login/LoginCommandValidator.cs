@@ -1,4 +1,4 @@
-﻿using Application.Features.Accounts.Commands.Login;
+using Application.Features.Accounts.Commands.Login;
 using FluentValidation;
 
 namespace Kinova.Application.Features.Accounts.Commands.Login

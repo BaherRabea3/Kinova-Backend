@@ -1,4 +1,4 @@
-﻿using Kinova.Domain.Entities.Patients;
+using Kinova.Domain.Entities.Patients;
 
 namespace Kinova.API.Requests.Account
 {

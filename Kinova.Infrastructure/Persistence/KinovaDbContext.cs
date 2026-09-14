@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.Interfaces;
+using Kinova.Application.Common.Interfaces;
 using Kinova.Domain.Entities.Doctors;
 using Kinova.Domain.Entities.Exercises;
 using Kinova.Domain.Entities.JointAngles;
@@ -14,7 +14,6 @@ using Kinova.Infrastructure.Identity;
 using Kinova.Infrastructure.Persistence.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace Kinova.Infrastructure.Persistence
 {
@@ -54,7 +53,6 @@ namespace Kinova.Infrastructure.Persistence
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ConfigurationAssemblyMarker).Assembly);
         }
-
 
     }
 }

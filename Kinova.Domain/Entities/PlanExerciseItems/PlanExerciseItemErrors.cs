@@ -1,4 +1,3 @@
-﻿
 
 using Kinova.Domain.Common;
 

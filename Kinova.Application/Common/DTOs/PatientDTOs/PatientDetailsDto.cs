@@ -1,4 +1,4 @@
-﻿
+
 using Kinova.Domain.Entities.Patients;
 
 namespace Kinova.Application.Common.DTOs.PatientDTOs

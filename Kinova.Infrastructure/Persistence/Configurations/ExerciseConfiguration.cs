@@ -1,4 +1,4 @@
-﻿using Kinova.Domain.Entities.Exercises;
+using Kinova.Domain.Entities.Exercises;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,7 +22,6 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasData(DbSeeder.SeedExercises());
-
 
         }
     }

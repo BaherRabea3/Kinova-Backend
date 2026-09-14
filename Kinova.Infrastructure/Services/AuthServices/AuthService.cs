@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.DTOs.AccountDTOs;
+using Kinova.Application.Common.DTOs.AccountDTOs;
 using Kinova.Application.Common.Interfaces;
 using Kinova.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -49,9 +49,6 @@ namespace Kinova.Infrastructure.Services.AuthServices
 
             if (!isValid)
                 return new AuthResponseDto { Message = "email or password are not correct" };
-
-
-            // generate token and refresh token
 
             var authResponse = await _jwtProvider.GenerateTokenAsync(user.Email!);
 
@@ -112,8 +109,6 @@ namespace Kinova.Infrastructure.Services.AuthServices
 
                     return new AuthResponseDto { Message = errorMessage };
                 }
-
-                // generate token and refresh token
 
                 var authResponse = await _jwtProvider.GenerateTokenAsync(Email);
 

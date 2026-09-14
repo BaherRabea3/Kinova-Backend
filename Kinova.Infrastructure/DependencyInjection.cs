@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.Interfaces;
+using Kinova.Application.Common.Interfaces;
 using Kinova.Infrastructure.Identity;
 using Kinova.Infrastructure.Persistence;
 using Kinova.Infrastructure.Services.AuthServices;
@@ -16,7 +16,6 @@ namespace Kinova.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-
 
             services.AddDbContext<KinovaDbContext>(options =>
                                                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")
@@ -51,12 +50,10 @@ namespace Kinova.Infrastructure
               };
           });
 
-
             services.AddScoped<IJwtProvider, JwtProvider>();
             services.AddScoped<IAuthService, AuthService>();
 
             services.AddScoped<IKinovaDbContext, KinovaDbContext>();
-
 
             return services;
         }

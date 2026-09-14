@@ -1,4 +1,4 @@
-﻿namespace Kinova.Domain.Entities.Sessions
+namespace Kinova.Domain.Entities.Sessions
 {
     public enum SessionStatus
     {

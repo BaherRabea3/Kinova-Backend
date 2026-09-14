@@ -28,6 +28,7 @@ namespace Kinova.API.Controllers
             User.FindFirstValue(ClaimTypes.Email)
             ?? throw new UnauthorizedAccessException("Email claim missing from token.");
 
+
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
@@ -80,7 +81,6 @@ namespace Kinova.API.Controllers
 
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
-
         [HttpGet("patients/{id:guid}/reports")]
         public async Task<IActionResult> GetPatientReports([FromRoute] Guid id)
         {
@@ -88,7 +88,6 @@ namespace Kinova.API.Controllers
 
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
-
         [HttpGet("dashboard-summary")]
         public async Task<IActionResult> GetDashboardSummary()
         {

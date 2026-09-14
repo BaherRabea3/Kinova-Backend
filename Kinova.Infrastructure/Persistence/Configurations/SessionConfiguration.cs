@@ -1,4 +1,4 @@
-using Kinova.Domain.Entities.Sessions;
+﻿using Kinova.Domain.Entities.Sessions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +12,7 @@ namespace Kinova.Infrastructure.Persistence.Configurations
 
             builder.HasKey(s => s.Id);
             builder.Property(s => s.Id)
-                .HasDefaultValueSql("NEWSEQUENTIALID()");
+                .HasDefaultValueSql("NEWSEQUENTIALID()"); 
 
             builder.Property(s => s.SessionDate)
                 .IsRequired()
@@ -21,13 +21,15 @@ namespace Kinova.Infrastructure.Persistence.Configurations
             builder.Property(s => s.StartTime)
                 .IsRequired();
 
+
             builder.Property(s => s.CorrectReps)
                 .HasDefaultValue(0);
 
+            // Relationships
             builder.HasOne(s => s.Patient)
                 .WithMany(p => p.Sessions)
                 .HasForeignKey(s => s.PatientId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);   
 
             builder.HasOne(s => s.Exercise)
                 .WithMany()
@@ -42,10 +44,10 @@ namespace Kinova.Infrastructure.Persistence.Configurations
             builder.HasMany(s => s.Reps)
                 .WithOne(r => r.Session)
                 .HasForeignKey(r => r.SessionId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);    
 
             builder.HasIndex(s => new { s.PatientId, s.SessionDate })
-                .HasDatabaseName("IX_Sessions_Patient_Date");
+                .HasDatabaseName("IX_Sessions_Patient_Date");  
 
             builder.HasIndex(s => s.ExerciseId);
         }

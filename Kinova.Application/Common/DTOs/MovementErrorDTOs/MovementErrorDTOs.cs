@@ -1,4 +1,4 @@
-
+﻿
 using Kinova.Domain.Entities.MovementErrors;
 
 namespace Kinova.Application.Common.DTOs.MovementErrorDTOs

@@ -1,4 +1,4 @@
-using Kinova.Application.Common.DTOs.PlanDTos;
+﻿using Kinova.Application.Common.DTOs.PlanDTos;
 using Kinova.Application.Common.Interfaces;
 using Kinova.Domain.Common;
 using Kinova.Domain.Entities.Doctors;
@@ -38,6 +38,7 @@ namespace Kinova.Application.Features.Doctors.Commands.UpdatePlan
 
             await using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
 
+            // MVP rule: only one active plan per patient.
             if (request.IsActive && !plan.IsActive)
             {
                 var currentlyActivePlans = await _context.Plans

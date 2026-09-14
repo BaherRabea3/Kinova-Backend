@@ -1,4 +1,4 @@
-namespace Kinova.API.Requests.Account
+﻿namespace Kinova.API.Requests.Account
 {
     public class LoginrRequest
     {

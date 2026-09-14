@@ -1,4 +1,4 @@
-using Kinova.Domain.Entities.Plans;
+﻿using Kinova.Domain.Entities.Plans;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -42,6 +42,7 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasData(DbSeeder.SeedPlans());
+
 
         }
     }

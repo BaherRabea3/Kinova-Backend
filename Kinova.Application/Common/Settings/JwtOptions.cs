@@ -1,4 +1,4 @@
-
+﻿
 namespace Application.Common.Settings
 {
     public class JwtOptions

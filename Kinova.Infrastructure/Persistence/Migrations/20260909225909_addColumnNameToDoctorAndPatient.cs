@@ -1,16 +1,16 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace Kinova.Infrastructure.Migrations
 {
-
+    /// <inheritdoc />
     public partial class addColumnNameToDoctorAndPatient : Migration
     {
-
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DeleteData(
@@ -47,6 +47,7 @@ namespace Kinova.Infrastructure.Migrations
                 });
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DeleteData(

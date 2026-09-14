@@ -1,4 +1,4 @@
-using Kinova.Application.Common.DTOs.PlanDTos;
+﻿using Kinova.Application.Common.DTOs.PlanDTos;
 using Kinova.Application.Features.Patients.Queries.GetActivePlans;
 using Kinova.Application.Features.Patients.Queries.GetPatientDetails;
 using MediatR;

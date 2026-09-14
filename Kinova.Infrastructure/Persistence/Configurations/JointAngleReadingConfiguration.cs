@@ -1,4 +1,4 @@
-using Kinova.Domain.Entities.JointAngles;
+﻿using Kinova.Domain.Entities.JointAngles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

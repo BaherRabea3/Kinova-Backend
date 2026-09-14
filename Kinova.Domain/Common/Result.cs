@@ -1,4 +1,4 @@
-namespace Kinova.Domain.Common
+﻿namespace Kinova.Domain.Common
 {
     public class Result
     {
@@ -18,6 +18,7 @@ namespace Kinova.Domain.Common
         public static Result<TValue> Success<TValue>(TValue value) => new(value, true, Error.None);
         public static Result<TValue> Failure<TValue>(Error error) => new(default, false, error);
 
+
     }
 
     public class Result<TValue> : Result
@@ -33,6 +34,6 @@ namespace Kinova.Domain.Common
         public TValue Value => IsSuccess
             ? _value!
             : throw new InvalidOperationException("Cannot access value of a failed result.");
-
+            
     }
 }

@@ -1,4 +1,4 @@
-using Kinova.Domain.Common;
+﻿using Kinova.Domain.Common;
 
 namespace Kinova.Domain.Entities.Plans
 {

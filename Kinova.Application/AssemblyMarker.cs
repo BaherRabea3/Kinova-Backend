@@ -1,4 +1,4 @@
-namespace Kinova.Application
+﻿namespace Kinova.Application
 {
     public class AssemblyMarker
     {

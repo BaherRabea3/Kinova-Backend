@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace Kinova.Application.Common.DTOs.RepDTOs
 {

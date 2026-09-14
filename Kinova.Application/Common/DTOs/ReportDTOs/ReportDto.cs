@@ -1,4 +1,4 @@
-﻿
+
 using Kinova.Application.Common.DTOs.MovementErrorDTOs;
 
 namespace Kinova.Application.Common.DTOs.ReportDTOs

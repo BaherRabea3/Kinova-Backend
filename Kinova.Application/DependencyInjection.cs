@@ -1,11 +1,10 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Kinova.Application;
 using Kinova.Application.Behaviours;
 using Kinova.Application.Common.Helpers;
 using Kinova.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-
 
 namespace Application
 {

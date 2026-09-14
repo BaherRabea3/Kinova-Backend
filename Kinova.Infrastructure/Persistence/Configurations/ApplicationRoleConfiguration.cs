@@ -1,4 +1,4 @@
-﻿
+
 using Kinova.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -22,7 +22,6 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                     Name = "Doctor",
                     NormalizedName = "DOCTOR"
                 });
-
 
         }
     }

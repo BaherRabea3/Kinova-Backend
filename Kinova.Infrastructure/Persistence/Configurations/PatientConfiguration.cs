@@ -1,4 +1,4 @@
-﻿using Kinova.Domain.Entities.Patients;
+using Kinova.Domain.Entities.Patients;
 using Kinova.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

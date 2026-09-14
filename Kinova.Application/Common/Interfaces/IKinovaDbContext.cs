@@ -1,4 +1,4 @@
-﻿using Kinova.Domain.Entities.Doctors;
+using Kinova.Domain.Entities.Doctors;
 using Kinova.Domain.Entities.Exercises;
 using Kinova.Domain.Entities.JointAngles;
 using Kinova.Domain.Entities.MovementErrors;
@@ -40,7 +40,6 @@ namespace Kinova.Application.Common.Interfaces
         DatabaseFacade Database { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-
 
     }
 }

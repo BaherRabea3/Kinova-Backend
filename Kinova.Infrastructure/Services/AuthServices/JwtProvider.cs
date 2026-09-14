@@ -1,4 +1,4 @@
-﻿using Application.Common.Settings;
+using Application.Common.Settings;
 using Kinova.Application.Common.DTOs.AccountDTOs;
 using Kinova.Application.Common.Interfaces;
 using Kinova.Infrastructure.Identity;
@@ -28,7 +28,6 @@ namespace Kinova.Infrastructure.Services.AuthServices
 
             var appUser = await _userManager.FindByEmailAsync(email);
 
-
             var claims = new List<Claim>
             {
                  new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
@@ -40,7 +39,7 @@ namespace Kinova.Infrastructure.Services.AuthServices
 
             var roles = await _userManager.GetRolesAsync(appUser);
 
-            foreach (var role in roles) 
+            foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
@@ -73,7 +72,7 @@ namespace Kinova.Infrastructure.Services.AuthServices
                 RefreshToken = CreateRefreshToken(),
                 RefreshTokenExpiration = DateTime.UtcNow
                 .AddDays(Convert.ToDouble(_options.Value.RefreshToken_Expiration_Days))
-                
+
             };
         }
 

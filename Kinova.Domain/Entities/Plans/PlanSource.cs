@@ -1,4 +1,4 @@
-﻿namespace Kinova.Domain.Entities.Plans
+namespace Kinova.Domain.Entities.Plans
 {
     public enum PlanSource
     {

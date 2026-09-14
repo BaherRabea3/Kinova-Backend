@@ -1,4 +1,4 @@
-﻿namespace Kinova.Domain.Common
+namespace Kinova.Domain.Common
 {
     public interface IValidationResult
     {

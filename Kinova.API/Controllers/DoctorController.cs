@@ -1,8 +1,9 @@
-﻿using Kinova.API.Requests.Doctor;
+using Kinova.API.Requests.Doctor;
 using Kinova.Application.Common.DTOs.PlanDTos;
 using Kinova.Application.Features.Doctors.Commands.CreatePlan;
 using Kinova.Application.Features.Doctors.Commands.UpdateDoctorProfile;
 using Kinova.Application.Features.Doctors.Commands.UpdatePlan;
+using Kinova.Application.Features.Doctors.Queries.GetAllPatients;
 using Kinova.Application.Features.Doctors.Queries.GetDashboardSummary;
 using Kinova.Application.Features.Doctors.Queries.GetDoctorProfile;
 using Kinova.Application.Features.Doctors.Queries.GetPatientDetails;
@@ -56,6 +57,18 @@ namespace Kinova.API.Controllers
             [FromQuery] string? status = null)
         {
             var response = await _mediator.Send(new GetPatientsQuery(UserId, page, pageSize, search, status));
+
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
+        }
+
+        [HttpGet("patients/all")]
+        public async Task<IActionResult> GetAllPatients(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? search = null,
+            [FromQuery] string? status = null)
+        {
+            var response = await _mediator.Send(new GetAllPatientsQuery(page, pageSize, search, status));
 
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }

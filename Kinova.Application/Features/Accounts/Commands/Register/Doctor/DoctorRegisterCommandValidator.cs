@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Kinova.Application.Features.Accounts.Commands.Register.Doctor;
 
 namespace Kinova.Application.Features.Accounts.Commands.Register.Patient

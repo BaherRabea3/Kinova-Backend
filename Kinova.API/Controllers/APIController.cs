@@ -1,4 +1,4 @@
-﻿using Asp.Versioning;
+using Asp.Versioning;
 using Kinova.Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -62,7 +62,6 @@ namespace Kinova.API.Controllers
                         error: result.Error))
             };
 
-        
         private static ProblemDetails CreateProblemDetails(
             string title,
             int status,

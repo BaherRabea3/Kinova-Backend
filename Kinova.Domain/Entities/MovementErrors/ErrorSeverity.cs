@@ -1,4 +1,4 @@
-﻿namespace Kinova.Domain.Entities.MovementErrors
+namespace Kinova.Domain.Entities.MovementErrors
 {
     public enum ErrorSeverity
     {

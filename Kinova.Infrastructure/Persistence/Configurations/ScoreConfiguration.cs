@@ -1,4 +1,4 @@
-﻿using Kinova.Domain.Entities.Scores;
+using Kinova.Domain.Entities.Scores;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,7 +19,6 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .HasPrecision(5, 2)
                 .IsRequired();
 
-
             builder.Property(x => x.RangeOfMotionScore)
                 .HasPrecision(5, 2)
                 .IsRequired();
@@ -39,7 +38,7 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired(true);
 
-            builder.HasIndex(s => s.SessionId).IsUnique();   // enforces 1:1, backs the idempotent-retry lookup
+            builder.HasIndex(s => s.SessionId).IsUnique();
         }
     }
 }

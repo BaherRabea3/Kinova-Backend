@@ -1,4 +1,4 @@
-﻿using Kinova.Application.Common.DTOs.RepDTOs;
+using Kinova.Application.Common.DTOs.RepDTOs;
 
 namespace Kinova.Application.Common.DTOs.SessionDTOs
 {

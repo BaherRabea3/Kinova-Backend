@@ -1,4 +1,4 @@
-﻿
+
 namespace Kinova.Application.Common.DTOs.SessionDTOs
 {
     public class StartSessionDto
@@ -6,7 +6,7 @@ namespace Kinova.Application.Common.DTOs.SessionDTOs
         public Guid Id { get; set; }
         public DateOnly SessionDate { get; set; }
         public DateTime StartTime { get; set; }
-        public DateTime? EndTime { get; set; }   
+        public DateTime? EndTime { get; set; }
         public string Status { get; set; }
         public Guid ExerciseId { get; set; }
         public string ExerciseName { get; set; }

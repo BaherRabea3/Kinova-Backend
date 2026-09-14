@@ -4,6 +4,7 @@ using Kinova.Application.Common.DTOs.SessionDTOs;
 using Kinova.Application.Features.Sessions.Commands.CancelSession;
 using Kinova.Application.Features.Sessions.Commands.CompleteSession;
 using Kinova.Application.Features.Sessions.Commands.StartSession;
+using Kinova.Application.Features.Sessions.Commands.StartSessionByExerciseId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,19 @@ namespace Kinova.API.Controllers
         {
         }
 
-        [HttpPost("{PlanExercisItemId}")]
+        [HttpPost("{PlanExerciseItemId}")]
         [Authorize(Roles = "Patient")]
-        public async Task<IActionResult> Start([FromRoute] Guid PlanExercisItemId)
+        public async Task<IActionResult> Start([FromRoute] Guid PlanExerciseItemId)
         {
-            var result = await _mediator.Send(new StartSessionCommand(UserId, PlanExercisItemId));
+            var result = await _mediator.Send(new StartSessionCommand(UserId, PlanExerciseItemId));
+
+            return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
+        }
+        [HttpPost("exercise/{ExerciseId}")]
+        [Authorize(Roles = "Patient")]
+        public async Task<IActionResult> StartWithoutDoctor([FromRoute] Guid ExerciseId)
+        {
+            var result = await _mediator.Send(new StartSessionByExerciseIdCommand(UserId, ExerciseId));
 
             return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
         }

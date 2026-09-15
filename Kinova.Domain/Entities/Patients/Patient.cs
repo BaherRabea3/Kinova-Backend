@@ -1,4 +1,5 @@
-﻿using Kinova.Domain.Entities.Doctors;
+﻿using Kinova.Domain.Entities.Conditions;
+using Kinova.Domain.Entities.Doctors;
 using Kinova.Domain.Entities.Plans;
 using Kinova.Domain.Entities.Reports;
 using Kinova.Domain.Entities.Sessions;
@@ -15,9 +16,12 @@ namespace Kinova.Domain.Entities.Patients
         public decimal Height { get; set; }
         public decimal Weight { get; set; }
         public string? CarePath { get; set; }
-        public Guid? DoctorId { get; set; }             
+        public DateOnly? DiagnosedDate { get; set; }
+        public Guid? DoctorId { get; set; }
+        public Guid? ConditionId { get; set; }
 
         public Doctor? Doctor { get; set; }
+        public Condition? Condition { get; set; }
         public ICollection<Plan> Plans { get; set; }  = new List<Plan>();
         public ICollection<Session> Sessions { get; set; } = new List<Session>();
         public ICollection<Report> Reports { get; set; } = new List<Report>();   

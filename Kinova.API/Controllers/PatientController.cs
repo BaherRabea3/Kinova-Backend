@@ -1,4 +1,6 @@
 using Kinova.Application.Common.DTOs.PlanDTos;
+using Kinova.Application.Features.Conditions.Commands.ChooseCondition;
+using Kinova.Application.Features.Conditions.Queries.GetConditons;
 using Kinova.Application.Features.Patients.Commands.FollowDoctor;
 using Kinova.Application.Features.Patients.Queries.GetActivePlans;
 using Kinova.Application.Features.Patients.Queries.GetAllDoctors;
@@ -47,6 +49,23 @@ namespace Kinova.API.Controllers
         [FromQuery] string? specialization = null)
         {
             var response = await _mediator.Send(new GetDoctorsQuery(search, specialization));
+
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
+        }
+        [HttpGet("conditions")]
+        [Authorize(Roles = "Patient")]
+        public async Task<IActionResult> GetConditions()
+        {
+            var response = await _mediator.Send(new GetConditionsQuery());
+
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
+        }
+
+        [HttpPut("me/condition/{conditionId:guid}")]
+        [Authorize(Roles = "Patient")]
+        public async Task<IActionResult> ChooseCondition([FromRoute] Guid conditionId)
+        {
+            var response = await _mediator.Send(new ChooseConditionCommand(UserId, conditionId));
 
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }

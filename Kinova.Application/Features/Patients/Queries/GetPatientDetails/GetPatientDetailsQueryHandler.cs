@@ -32,6 +32,9 @@ namespace Kinova.Application.Features.Patients.Queries.GetPatientDetails
                     Gender = p.Gender,
                     Height = p.Height,
                     Weight = p.Weight,
+                    ConditionId = p.ConditionId,
+                    ConditionName = p.Condition != null ? p.Condition.Name : null,
+                    DiagnosedDate = p.DiagnosedDate
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 

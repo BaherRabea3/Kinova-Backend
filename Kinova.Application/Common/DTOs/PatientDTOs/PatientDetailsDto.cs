@@ -14,5 +14,8 @@ namespace Kinova.Application.Common.DTOs.PatientDTOs
         public string? CarePath { get; set; }
         public Guid? DoctorId { get; set; }
         public string DoctorName { get; set; } = string.Empty;
+        public Guid? ConditionId { get; set; }
+        public string? ConditionName { get; set; }
+        public DateOnly? DiagnosedDate { get; set; }
     }
 }

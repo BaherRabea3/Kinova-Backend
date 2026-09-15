@@ -30,16 +30,12 @@ namespace Kinova.API
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
          
-            var allowedOrigins = builder.Configuration
-                .GetSection("Cors:AllowedOrigins")
-                .Get<string[]>() ?? Array.Empty<string>();
-
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowedFrontends", policy =>
+                options.AddDefaultPolicy( policy =>
                 {
                     policy
-                        .WithOrigins(allowedOrigins)
+                        .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
@@ -71,7 +67,7 @@ namespace Kinova.API
 
             app.UseHttpsRedirection();
 
-            app.UseCors("AllowedFrontends");
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -1,4 +1,4 @@
-
+﻿
 using Kinova.Application.Common.DTOs.ScoreDTOs;
 using Kinova.Application.Common.DTOs.SessionDTOs;
 using Kinova.Application.Features.Sessions.Commands.CancelSession;

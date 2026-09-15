@@ -1,4 +1,4 @@
-using Kinova.Application.Common.DTOs.MovementErrorDTOs;
+﻿using Kinova.Application.Common.DTOs.MovementErrorDTOs;
 using Kinova.Application.Common.DTOs.ReportDTOs;
 using Kinova.Application.Common.Interfaces;
 using Kinova.Domain.Common;

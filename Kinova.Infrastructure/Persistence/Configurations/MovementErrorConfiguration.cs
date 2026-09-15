@@ -1,3 +1,4 @@
+﻿
 
 using Kinova.Domain.Entities.MovementErrors;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .HasForeignKey(x => x.RepId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
+
 
         }
     }

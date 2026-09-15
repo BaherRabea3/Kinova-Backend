@@ -1,4 +1,4 @@
-namespace Kinova.Application.Common.DTOs.DoctorDTOs
+﻿namespace Kinova.Application.Common.DTOs.DoctorDTOs
 {
     public class DoctorProfileDto
     {

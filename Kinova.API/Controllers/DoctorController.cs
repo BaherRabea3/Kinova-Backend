@@ -1,4 +1,4 @@
-using Kinova.API.Requests.Doctor;
+﻿using Kinova.API.Requests.Doctor;
 using Kinova.Application.Common.DTOs.PlanDTos;
 using Kinova.Application.Features.Doctors.Commands.CreatePlan;
 using Kinova.Application.Features.Doctors.Commands.UpdateDoctorProfile;
@@ -62,6 +62,9 @@ namespace Kinova.API.Controllers
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
+        /// <summary>
+        /// Returns every patient in the system (not just the ones assigned to this doctor).
+        /// </summary>
         [HttpGet("patients/all")]
         public async Task<IActionResult> GetAllPatients(
             [FromQuery] int page = 1,

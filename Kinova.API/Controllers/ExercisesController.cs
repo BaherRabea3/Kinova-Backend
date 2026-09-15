@@ -1,4 +1,4 @@
-using Kinova.Application.Features.Exercises.Queries.GetExerciseById;
+﻿using Kinova.Application.Features.Exercises.Queries.GetExerciseById;
 using Kinova.Application.Features.Exercises.Queries.GetExercises;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

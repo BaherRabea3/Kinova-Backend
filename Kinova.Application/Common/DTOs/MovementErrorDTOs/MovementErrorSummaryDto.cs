@@ -1,4 +1,4 @@
-namespace Kinova.Application.Common.DTOs.MovementErrorDTOs
+﻿namespace Kinova.Application.Common.DTOs.MovementErrorDTOs
 {
     public class MovementErrorSummaryDto
     {

@@ -1,4 +1,4 @@
-namespace Kinova.Application.Common.DTOs.AccountDTOs
+﻿namespace Kinova.Application.Common.DTOs.AccountDTOs
 {
     public class AuthResponseDto
     {

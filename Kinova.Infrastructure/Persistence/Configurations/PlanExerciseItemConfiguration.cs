@@ -1,4 +1,4 @@
-using Kinova.Domain.Entities.PlanExerciseItems;
+﻿using Kinova.Domain.Entities.PlanExerciseItems;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

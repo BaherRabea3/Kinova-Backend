@@ -1,4 +1,4 @@
-namespace Kinova.Application.Common.DTOs.CommonDTOs
+﻿namespace Kinova.Application.Common.DTOs.CommonDTOs
 {
     public class PagedResult<T>
     {

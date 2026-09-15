@@ -1,8 +1,9 @@
-namespace Kinova.Domain.Common
+﻿namespace Kinova.Domain.Common
 {
     public sealed record Error
     {
         public static readonly Error None = new(string.Empty , string.Empty , ErrorType.Failure);
+
 
         public Error(string code, string description)
         {

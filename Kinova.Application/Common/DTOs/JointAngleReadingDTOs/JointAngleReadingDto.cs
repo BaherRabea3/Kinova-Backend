@@ -1,4 +1,4 @@
-
+﻿
 namespace Kinova.Application.Common.DTOs.JointAngleReadingDTOs
 {
     public class JointAngleReadingDto

@@ -1,4 +1,4 @@
-using Kinova.Application.Common.DTOs.AccountDTOs;
+﻿using Kinova.Application.Common.DTOs.AccountDTOs;
 using Kinova.Application.Common.Interfaces;
 using Kinova.Application.Features.Accounts.Commands.GenerateJwtToken;
 using Kinova.Domain.Common;
@@ -33,7 +33,7 @@ namespace Application.Features.Accounts.Commands.GenerateJwtToken
                 return Result.Failure<AuthResponseDto>(Error.Validation("", response.Message));
 
             return Result.Success(response);
-
+            
         }
     }
 }

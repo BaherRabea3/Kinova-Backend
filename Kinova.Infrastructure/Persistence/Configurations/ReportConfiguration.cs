@@ -1,4 +1,4 @@
-
+﻿
 using Kinova.Domain.Entities.Reports;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -36,7 +36,7 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(r => r.Score)
-            .WithOne()
+            .WithOne()                             
             .HasForeignKey<Report>(r => r.ScoreId)
             .OnDelete(DeleteBehavior.Restrict);
 

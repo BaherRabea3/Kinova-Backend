@@ -1,4 +1,4 @@
-using Kinova.Domain.Common;
+﻿using Kinova.Domain.Common;
 using MediatR;
 
 namespace Kinova.Application.Features.Accounts.Commands.Logout

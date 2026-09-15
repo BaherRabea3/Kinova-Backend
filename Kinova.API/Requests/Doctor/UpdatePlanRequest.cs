@@ -1,4 +1,4 @@
-namespace Kinova.API.Requests.Doctor
+﻿namespace Kinova.API.Requests.Doctor
 {
     public class UpdatePlanRequest
     {

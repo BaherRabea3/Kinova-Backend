@@ -1,40 +1,72 @@
-using Kinova.Domain.Entities.Doctors;
+﻿using Kinova.Domain.Entities.Doctors;
 using Kinova.Domain.Entities.Exercises;
 using Kinova.Domain.Entities.Patients;
 using Kinova.Domain.Entities.PlanExerciseItems;
 using Kinova.Domain.Entities.Plans;
 using Kinova.Infrastructure.Identity;
+// TODO: update this to the actual namespace of ApplicationUser in your project,
+// e.g. using Kinova.Domain.Entities.Users; or using Kinova.Infrastructure.Identity;
 
 namespace Kinova.Infrastructure.Persistence
 {
-
+    /// <summary>
+    /// Seed data for use with EF Core's HasData() in OnModelCreating / migrations.
+    ///
+    /// IMPORTANT constraints for HasData:
+    ///  - Every Id (including FK ids like UserId) must be a FIXED, hardcoded value.
+    ///    Guid.NewGuid() or DateTime.Now would produce a new value on every
+    ///    migration build and EF would keep generating spurious diffs.
+    ///  - Only scalar / FK properties are set — no navigation properties and
+    ///    no collections. EF resolves relationships purely from the FK columns.
+    ///  - AspNetUsers must be seeded BEFORE Doctors/Patients, since Doctor.UserId
+    ///    and Patient.UserId are foreign keys into AspNetUsers.
+    ///
+    /// Usage in OnModelCreating:
+    ///   modelBuilder.Entity&lt;ApplicationUser&gt;().HasData(DbSeeder.SeedAspNetUsers());
+    ///   modelBuilder.Entity&lt;Doctor&gt;().HasData(DbSeeder.SeedDoctors());
+    ///   modelBuilder.Entity&lt;Patient&gt;().HasData(DbSeeder.SeedPatients());
+    ///   modelBuilder.Entity&lt;Exercise&gt;().HasData(DbSeeder.SeedExercises());
+    ///   modelBuilder.Entity&lt;Plan&gt;().HasData(DbSeeder.SeedPlans());
+    ///   modelBuilder.Entity&lt;PlanExerciseItem&gt;().HasData(DbSeeder.SeedPlanExerciseItems());
+    /// </summary>
     public static class DbSeeder
     {
-
+        // ---- Doctors ----
         private static readonly Guid Doctor1Id = Guid.Parse("fe0691d2-30ad-f111-8f74-00155df0670e");
         private static readonly Guid Doctor1UserId = Guid.Parse("932fdec4-ba8a-4f81-78a8-08df0f536c78");
         private static readonly Guid Doctor2Id = Guid.Parse("eb420afe-30ad-f111-8f74-00155df0670e");
         private static readonly Guid Doctor2UserId = Guid.Parse("cb85c401-fa7b-4119-78a9-08df0f536c78");
 
+        // ---- Patients ----
         private static readonly Guid Patient1Id = Guid.Parse("643fbb85-2fad-f111-8f74-00155df0670e");
         private static readonly Guid Patient1UserId = Guid.Parse("9bbeb156-c98a-4fce-78a6-08df0f536c78");
         private static readonly Guid Patient2Id = Guid.Parse("d1fcede8-2fad-f111-8f74-00155df0670e");
         private static readonly Guid Patient2UserId = Guid.Parse("9557f4e2-0d2e-4ed6-78a7-08df0f536c78");
 
+        // ---- Exercises ----
         private static readonly Guid ExShoulderFlexionId = Guid.Parse("33333333-0000-0000-0000-000000000001");
         private static readonly Guid ExKneeExtensionId = Guid.Parse("33333333-0000-0000-0000-000000000002");
         private static readonly Guid ExSquatId = Guid.Parse("33333333-0000-0000-0000-000000000003");
 
+        // ---- Plans ----
         private static readonly Guid AclPhase2PlanId = Guid.Parse("44444444-0000-0000-0000-000000000001");
         private static readonly Guid AclPhase1PlanId = Guid.Parse("44444444-0000-0000-0000-000000000002");
         private static readonly Guid ShoulderPlanId = Guid.Parse("44444444-0000-0000-0000-000000000003");
         private static readonly Guid AdjunctPlanId = Guid.Parse("44444444-0000-0000-0000-000000000004");
 
+        // ---- PlanExerciseItems ----
         private static readonly Guid Item1Id = Guid.Parse("55555555-0000-0000-0000-000000000001");
         private static readonly Guid Item2Id = Guid.Parse("55555555-0000-0000-0000-000000000002");
         private static readonly Guid Item3Id = Guid.Parse("55555555-0000-0000-0000-000000000003");
         private static readonly Guid Item4Id = Guid.Parse("55555555-0000-0000-0000-000000000004");
         private static readonly Guid Item5Id = Guid.Parse("55555555-0000-0000-0000-000000000005");
+
+        // Not meant for production use — this is seed/dev/test data only.
+        // All four users share the password "Seed$Pass123!". The hashes below are
+        // real ASP.NET Core Identity V3 (PBKDF2-HMACSHA256, 100k iterations) hashes
+        // generated with FIXED salts, so they stay stable across migration rebuilds
+        // (PasswordHasher.HashPassword() at runtime uses a random salt every call,
+        // which would make HasData diff on every build — do not call it here).
 
         public static List<Exercise> SeedExercises()
         {
@@ -83,7 +115,7 @@ namespace Kinova.Infrastructure.Persistence
         {
             return new List<Plan>
             {
-
+                // Patient 1 — active
                 new Plan
                 {
                     Id = AclPhase2PlanId,
@@ -96,7 +128,7 @@ namespace Kinova.Infrastructure.Persistence
                     DoctorId = Doctor1Id,
                     PatientId = Patient1Id
                 },
-
+                // Patient 1 — inactive (older)
                 new Plan
                 {
                     Id = AclPhase1PlanId,
@@ -109,7 +141,7 @@ namespace Kinova.Infrastructure.Persistence
                     DoctorId = Doctor1Id,
                     PatientId = Patient1Id
                 },
-
+                // Patient 2 — active
                 new Plan
                 {
                     Id = ShoulderPlanId,
@@ -122,7 +154,7 @@ namespace Kinova.Infrastructure.Persistence
                     DoctorId = Doctor2Id,
                     PatientId = Patient2Id
                 },
-
+                // Patient 2 — active, started later (tests OrderByDescending)
                 new Plan
                 {
                     Id = AdjunctPlanId,

@@ -1,4 +1,4 @@
-using Kinova.Domain.Entities.Sessions;
+﻿using Kinova.Domain.Entities.Sessions;
 
 namespace Kinova.Domain.Entities.SessionTelemetryBatchs
 {

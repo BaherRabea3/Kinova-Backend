@@ -1,4 +1,4 @@
-using Kinova.Application.Common.DTOs.AccountDTOs;
+﻿using Kinova.Application.Common.DTOs.AccountDTOs;
 using System.Security.Claims;
 
 namespace Kinova.Application.Common.Interfaces

@@ -14,6 +14,7 @@ namespace Kinova.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+           
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
             builder.Services.AddControllers()
@@ -28,14 +29,19 @@ namespace Kinova.API
             builder.Services.AddProblemDetails();
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+         
+            var allowedOrigins = builder.Configuration
+                .GetSection("Cors:AllowedOrigins")
+                .Get<string[]>() ?? Array.Empty<string>();
+
             builder.Services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builderPolicy =>
+                options.AddPolicy("AllowedFrontends", policy =>
                 {
-                    builderPolicy
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .WithMethods("GET", "POST", "PUT", "DELETE");
+                    policy
+                        .WithOrigins(allowedOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
 
@@ -52,18 +58,24 @@ namespace Kinova.API
                        options.SubstituteApiVersionInUrl = true;
                    });
 
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
+            
                 app.UseSwagger();
                 app.UseSwaggerUI();
+            
 
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowedFrontends");
+
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.MapControllers();
 

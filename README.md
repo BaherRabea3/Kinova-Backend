@@ -10,7 +10,7 @@
 
 ## 1. Description & Architecture Overview
 
-**Kinova** is a backend API for an AI-assisted physiotherapy platform. It supports two primary user roles — **Doctors** and **Patients** — and manages the full rehabilitation loop: doctors assign exercise **Plans** to patients, patients execute timed **Sessions** with per-repetition telemetry (joint angles and movement errors), and the system automatically calculates **Scores** and generates **Reports** for clinical review.
+**Kinova** is a backend API for an AI-assisted physiotherapy platform. It supports two primary user roles — **Doctors** and **Patients** — and manages the full rehabilitation loop: patients choose their **Condition** and follow a **Doctor**, doctors assign exercise **Plans** to patients, patients execute timed **Sessions** with per-repetition telemetry (joint angles and movement errors), and the system automatically calculates **Scores** and generates **Reports** for clinical review.
 
 The solution follows **Clean Architecture** principles, separating concerns into four independent, dependency-inverted layers:
 
@@ -24,10 +24,11 @@ Kinova.API             → ASP.NET Core Web API host: controllers, request/respo
 **Key architectural patterns:**
 
 - **CQRS with MediatR** — every use case is a discrete `Command` or `Query` handled by its own handler.
-- **Result Pattern** — handlers return `Result<T>` instead of throwing exceptions for expected failures, mapped to appropriate HTTP status codes at the controller boundary.
+- **Result Pattern** — handlers return `Result<T>` instead of throwing exceptions for expected failures, mapped to appropriate HTTP status codes at the controller boundary (`HandleFailure`).
 - **Pipeline Behaviours** — cross-cutting concerns (logging, FluentValidation) are injected transparently into the MediatR pipeline.
 - **Repository-free data access** — `IKinovaDbContext` is exposed directly to the Application layer as an abstraction over EF Core, avoiding redundant repository wrapping.
 - **JWT Bearer authentication** with refresh-token rotation and role-based authorization (`Doctor`, `Patient`).
+- **Global exception handling** — an `IExceptionHandler` converts unexpected exceptions into RFC 7807 `ProblemDetails` responses.
 
 ---
 
@@ -35,12 +36,15 @@ Kinova.API             → ASP.NET Core Web API host: controllers, request/respo
 
 - 🔐 JWT-based authentication with access + refresh token issuance and rotation
 - 👥 Dual registration flows for **Doctors** and **Patients**, backed by ASP.NET Core Identity
-- 📋 Doctor-authored **rehabilitation plans** with configurable sets, reps, and weekly frequency per exercise
+- 🤝 Patients can browse and **follow a doctor** (a doctor is optional — patients can also train independently)
+- 🩺 Patient **condition** selection from a predefined catalog (e.g. Knee Osteoarthritis, ACL Reconstruction, Shoulder Impingement)
+- 📋 Doctor-authored **rehabilitation plans** with configurable sets, reps, and weekly frequency per exercise (one active plan per patient)
 - 🏋️ Session lifecycle management (`Start` → `Complete` / `Cancel`) with idempotent completion handling
+- 🆓 **Free-training sessions** started directly from an exercise, without a doctor or plan
 - 📈 Automatic **scoring engine** (accuracy, range of motion, stability) computed from uploaded repetition telemetry
 - 🦴 Per-repetition **joint angle** and **movement error** ingestion for motion-analysis pipelines
-- 📄 Auto-generated clinical **reports** summarizing recurring movement errors per session
-- 🔎 Doctor dashboard summary and searchable/paginated patient roster
+- 📄 Auto-generated clinical **reports** summarizing recurring movement errors per session (generated when the patient has an assigned doctor)
+- 🔎 Doctor dashboard summary and searchable/paginated patient rosters (own patients and all patients)
 - 🧩 Fluent, request-level validation via a dedicated MediatR pipeline behaviour
 - 🌐 API versioning (`Asp.Versioning`) with Swagger/OpenAPI documentation out of the box
 
@@ -55,7 +59,7 @@ Kinova.API             → ASP.NET Core Web API host: controllers, request/respo
 | Data Access | Entity Framework Core 8 (SQL Server provider) |
 | Authentication | ASP.NET Core Identity + JWT Bearer |
 | CQRS / Mediator | MediatR 14 |
-| Validation | FluentValidation |
+| Validation | FluentValidation 12 |
 | API Versioning | Asp.Versioning.Mvc |
 | API Documentation | Swashbuckle (Swagger / OpenAPI) |
 | Database | Microsoft SQL Server |
@@ -96,9 +100,17 @@ cd kinova
 dotnet restore
 ```
 
-### 6.2 Configure the Database Connection
+### 6.2 Configure the Database Connection & JWT Secret
 
-Update `Kinova.API/appsettings.Development.json` (or use `dotnet user-secrets`, see Configuration above) with a valid `DefaultConnection` string pointing at your SQL Server instance.
+Provide a valid `DefaultConnection` string pointing at your SQL Server instance and a `JwtOptions:SecretKey` (the value in `appsettings.json` is intentionally empty). Prefer `dotnet user-secrets` so credentials are never committed:
+
+```bash
+cd Kinova.API
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "<your-connection-string>"
+dotnet user-secrets set "JwtOptions:SecretKey" "<a-long-random-secret-at-least-32-chars>"
+```
+
+Alternatively, edit `Kinova.API/appsettings.Development.json` directly for local-only use.
 
 ### 6.3 Install the EF Core CLI Tool (if not already available)
 
@@ -116,7 +128,7 @@ Run the following from the repository root (or from `Kinova.API` directly):
 dotnet ef database update --project Kinova.Infrastructure --startup-project Kinova.API
 ```
 
-This creates the `Kinova` database and applies all pending migrations, including seed data for roles, exercises, plans, and demo doctor/patient accounts.
+This creates the database and applies all pending migrations, including seed data for roles, exercises, conditions, and sample plans.
 
 ### 6.5 Run the API
 
@@ -165,7 +177,8 @@ All endpoints are versioned and prefixed with `api/v{version}/[controller]` (e.g
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/api/v1/Session/{PlanExercisItemId}` 🔒 (Patient) | Start a new session for an item in the patient's active plan |
+| `POST` | `/api/v1/Session/{planExerciseItemId}` 🔒 (Patient) | Start a new session for an item in the patient's active plan |
+| `POST` | `/api/v1/Session/exercise/{exerciseId}` 🔒 (Patient) | Start a free-training session directly from an exercise (no plan or doctor required) |
 | `POST` | `/api/v1/Session/{id}/complete` 🔒 (Patient) | **Telemetry ingestion endpoint** — submit recorded repetitions, joint angle readings, and movement errors to finalize a session |
 | `POST` | `/api/v1/Session/{id}/cancel` 🔒 (Patient) | Cancel an in-progress session |
 
@@ -173,8 +186,12 @@ All endpoints are versioned and prefixed with `api/v{version}/[controller]` (e.g
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/v1/Patient/me` 🔒 (Patient) | Get the authenticated patient's profile details |
+| `GET` | `/api/v1/Patient/me` 🔒 (Patient) | Get the authenticated patient's profile details (including doctor and condition) |
 | `GET` | `/api/v1/Patient/me/plans/active` 🔒 (Patient) | List the patient's currently active rehabilitation plans |
+| `GET` | `/api/v1/Patient/doctors` 🔒 (Patient) | Browse doctors, filterable by name search and specialization |
+| `POST` | `/api/v1/Patient/me/doctor/{doctorId}` 🔒 (Patient) | Follow (be assigned to) a doctor |
+| `GET` | `/api/v1/Patient/conditions` 🔒 (Patient) | List the predefined medical conditions |
+| `PUT` | `/api/v1/Patient/me/condition/{conditionId}` 🔒 (Patient) | Choose the patient's condition (sets the diagnosed date) |
 
 ### Doctor
 
@@ -183,6 +200,7 @@ All endpoints are versioned and prefixed with `api/v{version}/[controller]` (e.g
 | `GET` | `/api/v1/Doctor/profile` 🔒 (Doctor) | Get the authenticated doctor's profile |
 | `PUT` | `/api/v1/Doctor/profile` 🔒 (Doctor) | Update doctor profile (name, license number, specialization) |
 | `GET` | `/api/v1/Doctor/patients` 🔒 (Doctor) | Paginated, searchable list of the doctor's patients |
+| `GET` | `/api/v1/Doctor/patients/all` 🔒 (Doctor) | Paginated, searchable list of every patient in the system, with their assigned doctor |
 | `GET` | `/api/v1/Doctor/patients/{id}` 🔒 (Doctor) | Full detail view of a single patient, including plans and recent sessions |
 | `GET` | `/api/v1/Doctor/patients/{id}/plans` 🔒 (Doctor) | List all plans assigned to a patient |
 | `GET` | `/api/v1/Doctor/patients/{id}/reports` 🔒 (Doctor) | List all generated reports for a patient |
@@ -234,12 +252,13 @@ All endpoints are versioned and prefixed with `api/v{version}/[controller]` (e.g
 Kinova/
 ├── Kinova.sln
 ├── Kinova.API/                          # Presentation layer — hosts the Web API
-│   ├── Controllers/                     # AuthController, DoctorController, PatientController, etc.
+│   ├── Controllers/                     # Auth, Doctor, Patient, Session, Exercises controllers
 │   ├── Requests/                        # Incoming request DTOs, grouped by feature
 │   ├── Exceptions/                      # GlobalExceptionHandler (IExceptionHandler)
 │   ├── Properties/                      # launchSettings.json, publish profiles
 │   ├── appsettings.json
 │   ├── appsettings.Development.json
+│   ├── Kinova.API.http
 │   └── Program.cs                       # Composition root / app pipeline
 │
 ├── Kinova.Application/                  # Application layer — use cases & orchestration
@@ -251,6 +270,7 @@ Kinova/
 │   │   └── Settings/                    # Strongly-typed configuration (JwtOptions)
 │   ├── Features/                        # CQRS commands/queries, grouped by domain feature
 │   │   ├── Accounts/
+│   │   ├── Conditions/
 │   │   ├── Doctors/
 │   │   ├── Exercises/
 │   │   ├── Patients/
@@ -259,7 +279,7 @@ Kinova/
 │
 ├── Kinova.Domain/                       # Domain layer — entities & core business rules
 │   ├── Common/                          # Result, Error, ValidationResult
-│   └── Entities/                        # Doctor, Patient, Exercise, Plan, Session, Score, Report, ...
+│   └── Entities/                        # Doctor, Patient, Condition, Exercise, Plan, Session, Score, Report, ...
 │
 ├── Kinova.Infrastructure/                # Infrastructure layer — persistence & external services
 │   ├── Identity/                        # ApplicationUser, ApplicationRole

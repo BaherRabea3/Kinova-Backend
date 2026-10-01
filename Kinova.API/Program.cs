@@ -14,7 +14,7 @@ namespace Kinova.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+           
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
             builder.Services.AddControllers()
@@ -29,15 +29,15 @@ namespace Kinova.API
             builder.Services.AddProblemDetails();
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-            // Cors Policy Configuration
+         
             builder.Services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builderPolicy =>
+                options.AddDefaultPolicy( policy =>
                 {
-                    builderPolicy
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .WithMethods("GET", "POST", "PUT", "DELETE");
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
 
@@ -60,14 +60,14 @@ namespace Kinova.API
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment())
-            //{
+            
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            //}
+            
 
             app.UseHttpsRedirection();
+
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

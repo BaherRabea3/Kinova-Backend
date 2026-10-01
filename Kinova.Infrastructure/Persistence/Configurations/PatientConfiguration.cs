@@ -30,6 +30,17 @@ namespace Kinova.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);
 
+            builder.Property(x => x.DiagnosedDate)
+                .HasColumnType("date");
+
+            builder.HasOne(x => x.Condition)
+                .WithMany(c => c.Patients)
+                .HasForeignKey(x => x.ConditionId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
+
+            builder.HasIndex(x => x.ConditionId);
+
             builder.HasIndex(x => x.DoctorId);
 
         }

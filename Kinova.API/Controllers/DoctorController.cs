@@ -3,6 +3,7 @@ using Kinova.Application.Common.DTOs.PlanDTos;
 using Kinova.Application.Features.Doctors.Commands.CreatePlan;
 using Kinova.Application.Features.Doctors.Commands.UpdateDoctorProfile;
 using Kinova.Application.Features.Doctors.Commands.UpdatePlan;
+using Kinova.Application.Features.Doctors.Queries.GetAllPatients;
 using Kinova.Application.Features.Doctors.Queries.GetDashboardSummary;
 using Kinova.Application.Features.Doctors.Queries.GetDoctorProfile;
 using Kinova.Application.Features.Doctors.Queries.GetPatientDetails;
@@ -26,6 +27,7 @@ namespace Kinova.API.Controllers
         private string Email =>
             User.FindFirstValue(ClaimTypes.Email)
             ?? throw new UnauthorizedAccessException("Email claim missing from token.");
+
 
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
@@ -60,6 +62,21 @@ namespace Kinova.API.Controllers
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
 
+        /// <summary>
+        /// Returns every patient in the system (not just the ones assigned to this doctor).
+        /// </summary>
+        [HttpGet("patients/all")]
+        public async Task<IActionResult> GetAllPatients(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? search = null,
+            [FromQuery] string? status = null)
+        {
+            var response = await _mediator.Send(new GetAllPatientsQuery(page, pageSize, search, status));
+
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
+        }
+
         [HttpGet("patients/{id:guid}")]
         public async Task<IActionResult> GetPatientDetails([FromRoute] Guid id)
         {
@@ -67,7 +84,6 @@ namespace Kinova.API.Controllers
 
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
-
         [HttpGet("patients/{id:guid}/reports")]
         public async Task<IActionResult> GetPatientReports([FromRoute] Guid id)
         {
@@ -75,7 +91,6 @@ namespace Kinova.API.Controllers
 
             return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
         }
-
         [HttpGet("dashboard-summary")]
         public async Task<IActionResult> GetDashboardSummary()
         {

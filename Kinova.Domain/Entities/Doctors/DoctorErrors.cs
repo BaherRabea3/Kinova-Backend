@@ -12,5 +12,7 @@ namespace Kinova.Domain.Entities.Doctors
 
         public static Error NotYourPatient()
             => Error.Forbidden("Doctor.NotYourPatient", "this patient is not assigned to you");
+        public static Error NotFound()
+           => Error.Forbidden("Doctor.NotFound", "Doctor Not found");
     }
 }

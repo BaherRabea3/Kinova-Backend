@@ -1,4 +1,5 @@
-﻿using Kinova.Domain.Entities.Doctors;
+﻿using Kinova.Domain.Entities.Conditions;
+using Kinova.Domain.Entities.Doctors;
 using Kinova.Domain.Entities.Exercises;
 using Kinova.Domain.Entities.Patients;
 using Kinova.Domain.Entities.PlanExerciseItems;
@@ -61,12 +62,43 @@ namespace Kinova.Infrastructure.Persistence
         private static readonly Guid Item4Id = Guid.Parse("55555555-0000-0000-0000-000000000004");
         private static readonly Guid Item5Id = Guid.Parse("55555555-0000-0000-0000-000000000005");
 
-        // Not meant for production use — this is seed/dev/test data only.
-        // All four users share the password "Seed$Pass123!". The hashes below are
-        // real ASP.NET Core Identity V3 (PBKDF2-HMACSHA256, 100k iterations) hashes
-        // generated with FIXED salts, so they stay stable across migration rebuilds
-        // (PasswordHasher.HashPassword() at runtime uses a random salt every call,
-        // which would make HasData diff on every build — do not call it here).
+
+        // ---- Conditions ----
+        private static readonly Guid CondKneeOaId = Guid.Parse("66666666-0000-0000-0000-000000000001");
+        private static readonly Guid CondAclPostOpId = Guid.Parse("66666666-0000-0000-0000-000000000002");
+        private static readonly Guid CondShoulderImpingementId = Guid.Parse("66666666-0000-0000-0000-000000000003");
+        private static readonly Guid CondPatellofemoralId = Guid.Parse("66666666-0000-0000-0000-000000000004");
+
+        public static List<Condition> SeedConditions()
+        {
+            return new List<Condition>
+    {
+        new Condition
+        {
+            Id = CondKneeOaId,
+            Name = "Knee Osteoarthritis",
+            Description = "Degenerative knee joint disease (OARSI guideline-based)"
+        },
+        new Condition
+        {
+            Id = CondAclPostOpId,
+            Name = "ACL Reconstruction (Post-op)",
+            Description = "Post-surgical anterior cruciate ligament rehabilitation"
+        },
+        new Condition
+        {
+            Id = CondShoulderImpingementId,
+            Name = "Shoulder Impingement / Post-op Shoulder",
+            Description = "Subacromial impingement or post-surgical shoulder rehab"
+        },
+        new Condition
+        {
+            Id = CondPatellofemoralId,
+            Name = "Patellofemoral Pain Syndrome",
+            Description = "Anterior knee pain from patellar tracking dysfunction"
+        }
+    };
+        }
 
         public static List<Exercise> SeedExercises()
         {

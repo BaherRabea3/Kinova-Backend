@@ -1,4 +1,5 @@
 ﻿using Kinova.Application.Common.Interfaces;
+using Kinova.Domain.Entities.Conditions;
 using Kinova.Domain.Entities.Doctors;
 using Kinova.Domain.Entities.Exercises;
 using Kinova.Domain.Entities.JointAngles;
@@ -47,6 +48,8 @@ namespace Kinova.Infrastructure.Persistence
         public DbSet<Score> Scores { get; set; }
 
         public DbSet<Report> Reports { get; set; }
+
+        public DbSet<Condition> Conditions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

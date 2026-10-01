@@ -1,4 +1,5 @@
-﻿using Kinova.Domain.Entities.Doctors;
+﻿using Kinova.Domain.Entities.Conditions;
+using Kinova.Domain.Entities.Doctors;
 using Kinova.Domain.Entities.Exercises;
 using Kinova.Domain.Entities.JointAngles;
 using Kinova.Domain.Entities.MovementErrors;
@@ -37,6 +38,7 @@ namespace Kinova.Application.Common.Interfaces
          DbSet<Score> Scores { get; }
 
          DbSet<Report> Reports { get; }
+        DbSet<Condition> Conditions { get; }
         DatabaseFacade Database { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

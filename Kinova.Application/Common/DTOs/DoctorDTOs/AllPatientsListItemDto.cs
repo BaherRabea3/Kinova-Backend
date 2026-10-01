@@ -2,7 +2,7 @@
 
 namespace Kinova.Application.Common.DTOs.DoctorDTOs
 {
-    public class DoctorPatientListItemDto
+    public class AllPatientsListItemDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -16,7 +16,13 @@ namespace Kinova.Application.Common.DTOs.DoctorDTOs
         /// </summary>
         public string Status { get; set; } = string.Empty;
 
-        public string? ActivePlanName { get; set; }
+        public Guid? DoctorId { get; set; }
+
+        /// <summary>
+        /// Null when the patient has no doctor assigned yet.
+        /// </summary>
+        public string? DoctorName { get; set; }
+
         public int TotalSessions { get; set; }
         public DateOnly? LastSessionDate { get; set; }
     }
